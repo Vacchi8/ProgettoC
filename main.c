@@ -7,28 +7,41 @@
 
 int main(int argc, char const *argv[])
 {   
+
     int selett=0;
 do{
-    printf("Legenda azioni\n");
-    printf("\n");
-    printf("1)Creare classe\n");
-    printf("\n");
-    printf("2)Inserire un voto\n");
-    printf("\n");
-    printf("3)Cancellare un voto\n");
-    printf("\n");
-    printf("4)Visualizzare voti della classe\n");
-    printf("\n");
-    printf("5)Voti di una materia\n");
-    printf("\n");
-    printf("6)Voti di uno studente\n");
-    printf("\n");
-    printf("7)I voti piu alti\n");
-    printf("\n");
-    printf("[per uscire premere 0]\n");
-    printf("\n");
-    printf("Inserire un azione\n");
-    scanf(" %d", &selett);
+    printf("\n\n\n\n");
+    printf("\t\t\t\t_______________________________________\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t|           LEGENDA AZIONI            |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 1)        Creare classe             |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 2)       Inserire un voto           |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 3)      Cancellare un voto          |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 4)  Visualizzare voti della classe  |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 5)      Voti di una materia         |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 6)     Voti di uno studente         |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t| 7)      I voti piu alti             |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    printf("\t\t\t\t|                                     |\n");
+    printf("\t\t\t\t|      [per uscire premere 0]         |\n");
+    printf("\t\t\t\t|_____________________________________|\n");
+    
+    printf("\n\n [Inserire un azione]\n");
+    scanf(" %d", &selett);    
     switch(selett){
     case 1:
         printf("\n");
