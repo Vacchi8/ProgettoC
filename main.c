@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "functions.h"
-#include "struct.h"
+#include "functions.c"
 
 int main(int argc, char const *argv[])
 {   
@@ -16,25 +15,22 @@ do{
     printf("\t\t\t\t|           LEGENDA AZIONI            |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 1)        Creare classe             |\n");
+    printf("\t\t\t\t| 1)       Inserire un voto           |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 2)       Inserire un voto           |\n");
+    printf("\t\t\t\t| 2)      Cancellare un voto          |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 3)      Cancellare un voto          |\n");
+    printf("\t\t\t\t| 3)  Visualizzare voti della classe  |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 4)  Visualizzare voti della classe  |\n");
+    printf("\t\t\t\t| 4)      Voti di una materia         |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 5)      Voti di una materia         |\n");
+    printf("\t\t\t\t| 5)     Voti di uno studente         |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 6)     Voti di uno studente         |\n");
-    printf("\t\t\t\t|_____________________________________|\n");
-    printf("\t\t\t\t|                                     |\n");
-    printf("\t\t\t\t| 7)      I voti piu alti             |\n");
+    printf("\t\t\t\t| 6)      I voti piu alti             |\n");
     printf("\t\t\t\t|_____________________________________|\n");
     printf("\t\t\t\t|                                     |\n");
     printf("\t\t\t\t|      [per uscire premere 0]         |\n");
@@ -45,35 +41,30 @@ do{
     switch(selett){
     case 1:
         printf("\n");
-        NewClass();
+        Insvoto();
         printf("\n");
         break;
     case 2:
         printf("\n");
-        Insvoto();
+        Cancvoto();
         printf("\n");
         break;
     case 3:
         printf("\n");
-        Cancvoto();
+        VotoClasse();
         printf("\n");
         break;
     case 4:
         printf("\n");
-        VotoClasse();
+        VotoMat();
         printf("\n");
         break;
     case 5:
         printf("\n");
-        VotoMat();
-        printf("\n");
-        break;
-    case 6:
-        printf("\n");
         VotoStudente();
         printf("\n");
         break;
-    case 7:
+    case 6:
         printf("\n");
         VotiMagg();
         printf("\n");

@@ -2,172 +2,294 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "struct.h"
+#include "functions.h"
+#define MAX_MATERIE 50
+#define MAX_LUNGHEZZA 200
 
-void NewClass(void){ //completa
-    FILE *cl;
-    FILE *vt;
-    char sl, sezione;
-    int  n_alunni=0, n_classe=0, i=0;
-    char nome[50][400];
-    char cognome[50][400];
-
-    //creazione del file(classe e del file dei voti)
-    printf("Creare il file(sovrascrive nel caso esista)?\n");
-    scanf(" %c", &sl);
-    if(sl=='y'){
-        cl = fopen("class.txt", "w+");
-        vt = fopen("voti_classi.txt", "w+");
-        if ((cl == NULL&&vt == NULL)) {
-        printf("Errore nella creazione del file.\n");
-        }else{
-        printf("File delle classi creato.\n");
-        printf("File dei voti creato.\n");
-        }
-     }
-    else{ //apertura dei file class e voti
-        cl=fopen("class.txt", "a+");
-        vt = fopen("voti_classi.txt", "a+");
-        if ((cl == NULL && vt == NULL)) {
-        printf("Errore nell'apertura del file.\n");
-        }else{
-        printf("File della classe aperto.\n");
-        printf("File dei voti aperto.\n");
-        }
-     }
-
-    //inizio dell'aquisizione delle informazioni sulla classe 
-    printf("Inserire il numero di alunni\n");
-    scanf(" %d", &n_alunni);
-    printf("Inserire la classe n° e la sezione\n");
-    scanf(" %d%c", &n_classe, &sezione);
-    for(i=0; i<n_alunni; i++){
-        printf("Inserire il nome del %d° alunno\n", i+1);
-        scanf("%s", nome[i]);
-        printf("Inserire il cognome del %d° alunno\n", i+1);
-        scanf("%s", cognome[i]);
-    }    
-
-    //scrittura delle informazioni sul file
-    fprintf(cl, "Classe:%d%c\n", n_classe, sezione);
-    for (i = 0; i < n_alunni; i++)
-    {
-        fprintf(cl, "%d) %s %s\n", i+1, nome[i], cognome[i]);
-    }
-    fprintf(cl, "\n");
-
-    fclose(cl);
-    fclose(vt);
-}
-
-void Insvoto(void) {//completa
-    FILE *vt;
-    FILE *cl;
-    int voto, conf = 0;
-    char materia[30], classe[30], classe_src[30], info_stud[100];
-    data data_voto;
-    
-    // Apertura del file in modalità "lettura/scrittura"
-    vt = fopen("voti_classi.txt", "a+");
-    if (vt == NULL) {
-        printf("Errore nell'apertura del file.\n");
-        return;
-    }
-    printf("File dei voti aperto.\n");
-
-    // Apertura del file in modalità "lettura/scrittura"
-    cl = fopen("class.txt", "r+");
-    if (cl == NULL) {
-        printf("Errore nell'apertura del file.\n");
-        return;
-    }
-    printf("File delle classi aperto.\n");
-
-    //cerca la classe
-    do{  
-    printf("A che classe appartiene l'alunno valutato?\n");
-    scanf("%s", classe_src);
-    while(fgets(classe, sizeof(classe_src), cl)){
-        if (strstr(classe, classe_src)) {
-            printf("Classe trovata\n");
-            conf=1+1;
-        }
-    }
-    //dice se non è stata trovata la classe
-    if(conf  ==0){
-            printf("Classe non trovata\n");
-            conf=1;
-        }
-    }while(conf == 1);
-    
-    // Inserimento voto, materia e nome dell'alunno
-    printf("Inserisci il Cognome dell'alunno:\n");
-    scanf("%s", info_stud);
-    printf("Inserisci il nome della materia:\n");
-    scanf("%s", materia);
-    printf("Inserisci il voto:\n");
-    scanf("%d", &voto);
-    printf("Inserire il mese e l'anno di assegnazione\n");
-    scanf("%d", &data_voto.mese);
-    scanf("%d", &data_voto.anno);
-    // Scrittura del voto nel file
-    fprintf(vt, "%d;%s;%s;%s;%d;%d\n", voto, materia, info_stud, classe_src, data_voto.mese, data_voto.anno);
-    printf("Voto inserito correttamente.\n");
-    fclose(vt);
-}
-
-void Cancvoto(){
-    FILE *vt;
-    char materia[30];
+struct dati
+{
+    char nome[30];
     char cognome[30];
-    char cognome_src[30];
-    char info_stud[200];
-    int conf=0;
-    
-    //verifica degli errori nell'apertura
-    vt=fopen("voti_classi.txt", "a+");
-        if (vt == NULL) {
-        printf("Errore nell'apertura del file.\n");
-        }else{
-        printf("File dei voti aperto.\n");
-        }
+    char classe[5];
+    int voto;
+    char materia[30];
+};
 
-    //cerca il cognome
-    do{  
-    printf("Il cognome dell'alunno?\n");
-    scanf(" %s", cognome_src);
-    while(fgets(cognome, sizeof(cognome_src), vt)){
-        if (strstr(cognome, cognome_src)) {
-            printf("Cognome trovato\n");
-            conf=1+1;
-        }
+struct Data
+{
+    int mese;
+    int anno;
+};
+
+void Insvoto(void)// funonzia
+{ 
+    FILE *vt;
+    struct dati alunno;
+    struct Data d_valutazione;
+
+    vt = fopen("valutazione.txt", "a+");
+    if (vt == NULL)
+    {
+        printf("Errore nell'apertura del file valutazione.txt\n");
     }
-    //dice se non è stato trovato il cognome
-    if(conf  ==0){
-            printf("Cognome non registrato\n");
-            conf=1;
-        }
-    }while(conf == 1);
+    // chiede e memorizza i dati dello studente
+    printf("Inserire il voto\n");
+    scanf("%d", &alunno.voto);
+    printf("Inserire nome e congnome\n");
+    printf("Nome:\n");
+    scanf("%s", alunno.nome);
+    printf("Cognome:\n");
+    scanf("%s", alunno.cognome);
+    printf("Inserire la classe\n");
+    scanf("%s", alunno.classe);
+    printf("Inserire la materia\n");
+    scanf("%s", alunno.materia);
+    printf("Inserire il mese e l'anno(xx/xxxx) \n");
+    printf("Mese:\n");
+    scanf("%d", &d_valutazione.mese);
+    printf("Anno:\n");
+    scanf("%d", &d_valutazione.anno);
 
-
-
-
-    printf("Porcodio\n");
+    fprintf(vt, "\nStudente:%s %s;Voto:%d;Materia:%s;Classe:%s;Data:%d/%d;", alunno.nome, alunno.cognome, alunno.voto, alunno.materia, alunno.classe, d_valutazione.mese, d_valutazione.anno);
     fclose(vt);
 }
-void VotoClasse(){
-    printf("VotoClasse\n");
-  
+
+void Cancvoto()// non funonzia
+{ 
+    FILE *vt, *temp;
+char nome[30], cognome[30], classe[5], materia[30], buffer[100];
+double voto;
+int mese, anno;
+char stud_nome[30], stud_cognome[30], temp_nome[30], temp_cognome[30], temp_classe[5], temp_materia[30];
+double temp_voto;
+int temp_mese, temp_anno;
+temp = fopen("temp.txt", "w");
+
+// chiede i dati dello studente e del voto da eliminare
+printf("Inserire il voto da eliminare:\n");
+scanf("%lf", &voto);
+printf("Inserire nome e cognome dello studente:\n");
+printf("Nome:\n");
+scanf("%s", nome);
+printf("Cognome:\n");
+scanf("%s", cognome);
+printf("Inserire la classe:\n");
+scanf("%s", classe);
+printf("Inserire la materia:\n");
+scanf("%s", materia);
+printf("Inserire il mese e l'anno(xx/xxxx):\n");
+printf("Mese:\n");
+scanf("%d", &mese);
+printf("Anno:\n");
+scanf("%d", &anno);
+
+vt = fopen("valutazione.txt", "r");
+
+if (vt == NULL || temp == NULL)
+{
+    printf("Errore nell'apertura dei file\n");
+    return;
 }
-void VotoMat(){
-    printf("Votomat\n");
-  
+
+int voto_trovato = 0;
+while (fgets(buffer, 100, vt) != NULL)
+{
+    // legge i dati dal file
+    sscanf(buffer, "Studente:%s %s;Voto:%lf;Materia:%s;Classe:%s;Data:%*d/%d;%*s", stud_nome, stud_cognome, &temp_voto, temp_materia, temp_classe, &temp_anno);
+    sscanf(buffer, "Studente:%*s %*s;Voto:%*lf;Materia:%*s;Classe:%*s;Data:%d/%*d;%*s", &temp_mese);
+
+    // controlla se i dati corrispondono a quelli cercati
+    if (strcmp(stud_nome, nome) == 0 && strcmp(stud_cognome, cognome) == 0 && strcmp(temp_classe, classe) == 0 && strcmp(temp_materia, materia) == 0 && temp_voto == voto && temp_anno == anno && temp_mese == mese)
+    {
+        printf("Il voto è stato eliminato:\n%s", buffer);
+        voto_trovato = 1;
+    }
+    else
+    {
+        fprintf(temp, "%s", buffer);
+    }
 }
-void VotoStudente(){
-    printf("Votostud\n");
-   
+
+fclose(vt);
+fclose(temp);
+
+if (!voto_trovato) {
+    printf("Voto non trovato\n");
+    remove("temp.txt");
+} else {
+    remove("valutazione.txt");
+    rename("temp.txt", "valutazione.txt");
 }
-void VotiMagg(){
-    printf("Votimgg\n");
-   
 }
+
+void VotoClasse()//funziona
+{
+    FILE *vt;
+    char classe[5], buffer[100];
+    int found = 0;
+
+    printf("Inserisci la classe di cui vuoi visualizzare i voti: ");
+    scanf("%s", classe);
+
+    vt = fopen("valutazione.txt", "r");
+    if (vt == NULL)
+    {
+        printf("Errore nell'apertura del file valutazione.txt\n");
+        return;
+    }
+
+    printf("Voti della classe %s:\n", classe);
+    while (fgets(buffer, 100, vt) != NULL)
+    {
+        if (strstr(buffer, classe) != NULL)
+        {
+            printf("%s", buffer);
+            found = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("Non ci sono voti per la classe %s.\n", classe);
+    }
+
+    fclose(vt);
+}
+
+void VotoMat()//funziona
+{
+    FILE *vt;
+    char materia[10], buffer[100];
+    int found = 0;
+
+    printf("Inserisci la materia di cui vuoi visualizzare i voti: ");
+    scanf("%s", materia);
+
+    vt = fopen("valutazione.txt", "r");
+    if (vt == NULL)
+    {
+        printf("Errore nell'apertura del file valutazione.txt\n");
+        return;
+    }
+
+    printf("Voti della materia: %s\n", materia);
+    while (fgets(buffer, 100, vt) != NULL)
+    {
+        if (strstr(buffer, materia) != NULL)
+        {
+            printf("%s", buffer);
+            found = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("Non ci sono voti per la materia %s.\n", materia);
+    }
+
+    fclose(vt);
+}
+
+void VotoStudente()//funonzia
+{
+   FILE *vt;
+    char cognome[15], buffer[100];
+    int found = 0;
+
+    printf("Inserisci il cognome dello studente di cui vuoi visualizzare i voti: ");
+    scanf("%s", cognome);
+
+    vt = fopen("valutazione.txt", "r");
+    if (vt == NULL)
+    {
+        printf("Errore nell'apertura del file valutazione.txt\n");
+        return;
+    }
+
+    printf("Voti di: %s\n", cognome);
+    while (fgets(buffer, 100, vt) != NULL)
+    {
+        if (strstr(buffer, cognome) != NULL)
+        {
+            printf("%s", buffer);
+            found = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("Non ci sono anocora voti per %s.\n", cognome);
+    }
+
+    fclose(vt);
+}
+
+void VotiMagg()// funonzia
+{
+FILE *fp = fopen("valutazione.txt", "r");
+if (fp == NULL) {
+    printf("Errore nell'apertura del file\n");
+    return;
+}
+
+// Inizializza un array per memorizzare i voti delle materie
+int voti[MAX_MATERIE] = {0};
+
+// Inizializza un array di stringhe per memorizzare i nomi delle materie
+char materie[MAX_MATERIE][MAX_LUNGHEZZA];
+int num_materie = 0;
+
+// Leggi il file riga per riga
+char line[MAX_LUNGHEZZA];
+while (fgets(line, MAX_LUNGHEZZA, fp)) {
+    // Cerca la materia nella riga
+    char *materia_start = strstr(line, "Materia:");
+    if (materia_start != NULL) {
+        // Estrai il nome della materia
+        char materia[MAX_LUNGHEZZA];
+        sscanf(materia_start, "Materia:%s", materia);
+
+        // Cerca il voto nella riga
+        char *voto_start = strstr(line, "Voto:");
+        if (voto_start != NULL) {
+            int voto;
+            sscanf(voto_start, "Voto:%d", &voto);
+
+            // Cerca la posizione della materia nell'array
+            int pos = -1;
+            for (int i = 0; i < num_materie; i++) {
+                if (strcmp(materie[i], materia) == 0) {
+                    pos = i;
+                    break;
+                }
+            }
+            // Se la materia non è presente nell'array, aggiungila
+            if (pos == -1) {
+                if (num_materie >= MAX_MATERIE) {
+                    printf("Troppi nomi di materia nel file\n");
+                    return;
+                }
+                pos = num_materie;
+                strcpy(materie[num_materie], materia);
+                num_materie++;
+            }
+
+            // Aggiorna il voto più alto della materia
+            if (voto > voti[pos]) {
+                voti[pos] = voto;
+            }
+        }
+    }
+}
+
+// Chiudi il file
+fclose(fp);
+
+// Stampa i voti più alti delle materie
+printf("Voti piu' alti per materia:\n");
+for (int i = 0; i < num_materie; i++) {
+    if (voti[i] > 0) {
+        printf("%s: %d\n", materie[i], voti[i]);
+    }
+}
+}
+
+
+    
