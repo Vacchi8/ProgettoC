@@ -7,4 +7,3 @@ Studente:Davide Caffo;Voto:9;Materia:Storia;Classe:6y;Data:12/1499;
 Studente:Andrea;Voto:7;Materia:Informatica;Classe:6y;Data:12/1209;
 Studente:Andrea Bagarini;Voto:4;Materia:Religione;Classe:6y;Data:12/1900;
 Studente:Andrea cristo;Voto:8;Materia:Religione;Classe:6y;Data:12/1900;
-Studente:Gennaro Esposito;Voto:7;Materia:sdfakj;Classe:4b;Data:4/2342;

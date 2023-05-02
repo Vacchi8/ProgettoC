@@ -50,7 +50,7 @@ void Insvoto(void)// funonzia
     printf("Anno:\n");
     scanf("%d", &d_valutazione.anno);
 
-    fprintf(vt, "\nStudente:%s %s;Voto:%d;Materia:%s;Classe:%s;Data:%d/%d;", alunno.nome, alunno.cognome, alunno.voto, alunno.materia, alunno.classe, d_valutazione.mese, d_valutazione.anno);
+    fprintf(vt, "Studente:%s %s;Voto:%d;Materia:%s;Classe:%s;Data:%d/%d;\n", alunno.nome, alunno.cognome, alunno.voto, alunno.materia, alunno.classe, d_valutazione.mese, d_valutazione.anno);
     fclose(vt);
 }
 
